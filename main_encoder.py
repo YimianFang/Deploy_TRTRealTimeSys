@@ -3,10 +3,10 @@ import numpy as np
 from trtexec_utils import *
 from yz_trans.alts_client import build_stub, yz_trans
 
-E_engine_file_path = "int8LIC_E2.trt"
+E_engine_file_path = "int8LIC_E2_XA.trt"
 E_f = open(E_engine_file_path, "rb")
 E_engine = runtime.deserialize_cuda_engine(E_f.read())
-pD_engine_file_path = "int8LIC_pD2.trt"
+pD_engine_file_path = "int8LIC_pD2_XA.trt"
 pD_f = open(pD_engine_file_path, "rb")
 pD_engine = runtime.deserialize_cuda_engine(pD_f.read()) 
 

@@ -7,10 +7,10 @@ def psnr(img1, img2):
    mse = np.mean((img1 - img2) ** 2)
    return 10 * math.log10(1.0 ** 2 / mse)
 
-pD_engine_file_path = "int8LIC_pD2.trt"
+pD_engine_file_path = "int8LIC_pD2_TX.trt"
 pD_f = open(pD_engine_file_path, "rb")
 pD_engine = runtime.deserialize_cuda_engine(pD_f.read()) 
-D_engine_file_path = "int8LIC_D2.trt"
+D_engine_file_path = "int8LIC_D2_TX.trt"
 D_f = open(D_engine_file_path, "rb")
 D_engine = runtime.deserialize_cuda_engine(D_f.read()) 
 
@@ -41,7 +41,7 @@ while True:
         # cv2.imwrite("recon_x.jpg", recon_x)
         out.write(recon_x)
     else:
-        svr.wait_for_termination(timeout=10)
+        svr.wait_for_termination(timeout=15)
         if len(svrc.q.queue) == 0:
             print("------------------Time Out - Stop Decoder------------------")
             break
