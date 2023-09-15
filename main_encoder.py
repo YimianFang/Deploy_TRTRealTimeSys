@@ -13,7 +13,7 @@ pD_engine = runtime.deserialize_cuda_engine(pD_f.read())
 camSet = 'v4l2src device=/dev/video0 ! video/x-raw, width=352, height=288, framerate=30/1 ! videoconvert ! appsink'
 cam = cv2.VideoCapture(camSet)
 
-stub = build_stub("0.0.0.0:50051")
+stub = build_stub("192.168.1.188:50051")
 
 frame_idx = 0
 
