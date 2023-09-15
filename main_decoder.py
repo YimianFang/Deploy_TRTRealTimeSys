@@ -14,7 +14,7 @@ D_engine_file_path = "int8LIC_D2.trt"
 D_f = open(D_engine_file_path, "rb")
 D_engine = runtime.deserialize_cuda_engine(D_f.read()) 
 
-svr, svrc = build_svrc("0.0.0.0:50051")
+svr, svrc = build_svrc("192.168.1.188:50051")
 
 frame_idx = 0
 
