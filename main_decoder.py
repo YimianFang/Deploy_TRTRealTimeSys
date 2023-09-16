@@ -2,24 +2,25 @@ import cv2
 import numpy as np
 from trtexec_utils import *
 from yz_trans.alts_server import build_svrc
+import time
 
 def psnr(img1, img2):
    mse = np.mean((img1 - img2) ** 2)
    return 10 * math.log10(1.0 ** 2 / mse)
 
-pD_engine_file_path = "int8LIC_pD2_TX.trt"
+pD_engine_file_path = "int8LIC_pD2_2070.trt"
 pD_f = open(pD_engine_file_path, "rb")
 pD_engine = runtime.deserialize_cuda_engine(pD_f.read()) 
-D_engine_file_path = "int8LIC_D2_TX.trt"
+D_engine_file_path = "int8LIC_D2_2070.trt"
 D_f = open(D_engine_file_path, "rb")
 D_engine = runtime.deserialize_cuda_engine(D_f.read()) 
-
-svr, svrc = build_svrc("192.168.1.188:50051")
 
 frame_idx = 0
 
 fourcc = cv2.VideoWriter.fourcc('m', 'p', '4', 'v')
 out = cv2.VideoWriter('recon_x.mp4', fourcc, 30.0, (256, 256),True)
+
+svr, svrc = build_svrc("192.168.1.70:50051")
 
 while True:
     if len(svrc.q.queue) > 0:
@@ -40,11 +41,15 @@ while True:
         recon_x = np.transpose(x_hat_255.reshape(3, 256, 256), (1, 2, 0)).astype(np.uint8)
         # cv2.imwrite("recon_x.jpg", recon_x)
         out.write(recon_x)
-    else:
-        svr.wait_for_termination(timeout=15)
-        if len(svrc.q.queue) == 0:
-            print("------------------Time Out - Stop Decoder------------------")
-            break
+        cv2.imshow("recon_x", recon_x)
+        
+        if cv2.waitKey(1) & 0xFF == ord('q'): break
+    # else:
+    #     svr.wait_for_termination(timeout=10)
+    #     if len(svrc.q.queue) == 0:
+    #         print("------------------Time Out - Stop Decoder------------------")
+    #         break
 
+print("------------------Quit------------------")
 out.release()
 cv2.destroyAllWindows()
