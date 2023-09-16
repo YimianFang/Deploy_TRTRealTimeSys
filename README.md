@@ -1,5 +1,8 @@
 # TRT_Deploy_RealTimeSys
 
+## Purpose
+Capture a video from the camera on a platform (etc. Jetson Xavier) and the compressed and encoded frames are transmitted to another paltform (etc. Jetson TX), where the frames are decoded and reconstructed in real time.
+
 ## Environment Requirements
 1. python 3.6.9
 2. pycuda 2022.1
@@ -11,7 +14,7 @@
 8. numpy 1.19.5
 
 ## Tips
-1. make sure __ip address__ works.
+1. make sure the __ip address__ works.
 2. make sure __`.trt` files__ match the platform. If not, generate corresponding `.trt` files from `.onnx` models with `build_D_trt.py` and `build_pD_trt.py`.
 3. The input size is fixed, which is `[1, 3, 256, 256]`.
 
