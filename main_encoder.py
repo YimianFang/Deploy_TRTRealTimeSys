@@ -2,6 +2,11 @@ import cv2
 import numpy as np
 from trtexec_utils import *
 from yz_trans.alts_client import build_stub, yz_trans
+import argparse
+
+parser = argparse.ArgumentParser()
+parser.add_argument('--ip', type=str, default="192.168.1.188:50051")
+args = parser.parse_args()
 
 E_engine_file_path = "int8LIC_E2_XA.trt"
 E_f = open(E_engine_file_path, "rb")
@@ -13,7 +18,7 @@ pD_engine = runtime.deserialize_cuda_engine(pD_f.read())
 camSet = 'v4l2src device=/dev/video0 ! video/x-raw, width=352, height=288, framerate=30/1 ! videoconvert ! appsink'
 cam = cv2.VideoCapture(camSet)
 
-stub = build_stub("192.168.1.188:50051")
+stub = build_stub(args.ip)
 
 frame_idx = 0
 

@@ -3,6 +3,11 @@ import numpy as np
 from trtexec_utils import *
 from yz_trans.alts_server import build_svrc
 import time
+import argparse
+
+parser = argparse.ArgumentParser()
+parser.add_argument('--ip', type=str, default="192.168.1.188:50051")
+args = parser.parse_args()
 
 def psnr(img1, img2):
    mse = np.mean((img1 - img2) ** 2)
@@ -18,9 +23,9 @@ D_engine = runtime.deserialize_cuda_engine(D_f.read())
 frame_idx = 0
 
 fourcc = cv2.VideoWriter.fourcc('m', 'p', '4', 'v')
-out = cv2.VideoWriter('recon_x.mp4', fourcc, 30.0, (256, 256),True)
+out = cv2.VideoWriter('recon_x.mp4', fourcc, 30.0, (256, 256), True)
 
-svr, svrc = build_svrc("192.168.1.70:50051")
+svr, svrc = build_svrc(args.ip)
 
 while True:
     if len(svrc.q.queue) > 0:
