@@ -1,4 +1,4 @@
-# TRT_Deploy_RealTimeSys
+# Deploy_TRTRealTimeSys
 
 ## Purpose
 Capture a video from the camera on a platform (etc. Jetson Xavier) and the compressed and encoded frames are transmitted to another paltform (etc. Jetson TX), where the frames are decoded and reconstructed in real time.
@@ -15,20 +15,22 @@ Capture a video from the camera on a platform (etc. Jetson Xavier) and the compr
 
 ## Tips
 1. make sure the __ip address__ works.
-2. make sure __`.trt` files__ match the platform. If not, generate corresponding `.trt` files from `.onnx` models with `build_D_trt.py` and `build_pD_trt.py`.
-3. The input size is fixed, which is `[1, 3, 256, 256]`.
+2. make sure __`.trt` files__ match the platform.
+3. Folders `Int8LIC_*2/127` build **Int8** mode TensorRT engines (`.trt` files) from `.onnx` models, where `2` means `/2` and folder `127` means `-127`; `build_*_trt.py` builds **Float32** mode TensorRT engines from `.onnx` models.
+4. The input size is fixed, which is `[1, 3, 256, 256]`.
+5. TX2 platform **can not** support Int8 mode of TensorRT.
+6. `flt_decoder_cmp.py` & `flt_encoder_cmp.py`: floating-point pretrained models with `flt_*.onnx` & `flt_*_TX/XA.trt`.
+7. `decoder_cmp.py` & `encoder_cmp.py`: int8 quantized models with `Int8LIC_*.onnx` & `Int8LIC_*_TX/XA.trt`.
+8. `flt_decoder_cmp.py` & `decoder_cmp.py` use `D` & `pD`, while `flt_encoder_cmp.py` & `encoder_cmp.py` use `E` & `pD`.
 
 ## Steps to run
 ### Run server first
 ```bash
-python3 main_decoder.py --ip 192.168.1.188:50051
+python3 flt_decoder_cmp.py --ip 192.168.1.188:50051
 ```
 
 ### Run client then on another machine
 ```bash
-python3 main_encoder.py --ip 192.168.1.188:50051
+python3 flt_encoder_cmp.py --ip 192.168.1.188:50051
 ```
 * The ip addresses on two machines should keep the same.
-
-### Stop the program
-Press the key `q` on the keyboard.
