@@ -158,9 +158,9 @@ entropy_bottleneck.load_state_dict(torch.load("entropy_bottleneck.pth.tar"))
 def compress(y, z, sigma):
     z = torch.tensor(z.reshape(1, 128, 4, 4))
     z_strings = entropy_bottleneck.compress(z)
-    z_hat = entropy_bottleneck.decompress(z_strings, z.size()[-2:])
+    # z_hat = entropy_bottleneck.decompress(z_strings, z.size()[-2:])
     # torch.save(entropy_bottleneck.state_dict(), "entropy_bottleneck.pth.tar")
-    print((z - z_hat).sum())
+    # print((z - z_hat).sum())
     
     scales_hat = torch.tensor(sigma.reshape(1, 192, 16, 16))
     y = torch.tensor(y.reshape(1, 192, 16, 16))
