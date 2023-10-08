@@ -2,8 +2,8 @@ import os
 import tensorrt as trt
  
 TRT_LOGGER = trt.Logger()
-model_path='int8LIC_pD2.onnx'
-engine_file_path = "int8LIC_pD2_TX.trt"
+model_path='flt_pD.onnx'
+engine_file_path = "flt_pD_TX.trt"
 EXPLICIT_BATCH = 1 << (int)(trt.NetworkDefinitionCreationFlag.EXPLICIT_BATCH)#batchsize=1
  
 with trt.Builder(TRT_LOGGER) as builder, builder.create_network(EXPLICIT_BATCH) \

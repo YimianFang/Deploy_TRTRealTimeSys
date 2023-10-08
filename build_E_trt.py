@@ -2,8 +2,8 @@ import os
 import tensorrt as trt
  
 TRT_LOGGER = trt.Logger()
-model_path='flt_D.onnx'
-engine_file_path = "flt_D_TX.trt"
+model_path='flt_E.onnx'
+engine_file_path = "flt_E_TX.trt"
 EXPLICIT_BATCH = 1 << (int)(trt.NetworkDefinitionCreationFlag.EXPLICIT_BATCH)#batchsize=1
  
 with trt.Builder(TRT_LOGGER) as builder, builder.create_network(EXPLICIT_BATCH) \
@@ -21,7 +21,7 @@ with trt.Builder(TRT_LOGGER) as builder, builder.create_network(EXPLICIT_BATCH) 
             for error in range(parser.num_errors):
                 print (parser.get_error(error))
             
-    network.get_input(0).shape = [1, 192, 16, 16]
+    network.get_input(0).shape = [1, 3, 256, 256]
     print('Completed parsing of ONNX file')
     engine = builder.build_cuda_engine(network)
     with open(engine_file_path, "wb") as f:
