@@ -11,7 +11,8 @@ Capture a video from the camera on a platform (etc. Jetson Xavier) and the compr
 5. grpc 1.48.2
 6. compressai 1.2.4
 7. torch 1.9.0
-8. numpy 1.19.5
+8. torchvision 1.10.0
+9. numpy 1.19.5
 
 ## Tips
 1. make sure the __ip address__ works.
